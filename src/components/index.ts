@@ -9,30 +9,18 @@ const ExchangeIcon = dynamic(() => import("./@icons/ExchangeIcon"));
 const MenuIcon = dynamic(() => import("./@icons/MenuIcon"));
 const CloseIcon = dynamic(() => import("./@icons/CloseIcon"));
 const DownloadIcon = dynamic(() => import("./@icons/DownloadIcon"));
-//atoms
-const NumberInput = dynamic(() => import("./atoms/NumberInput"));
-const TextInput = dynamic(() => import("./atoms/TextInput"));
-const CheckBox = dynamic(() => import("./atoms/CheckBox"));
-const LoadCircle = dynamic(() => import("./atoms/LoadSpinner"));
-const ImageShimmer = dynamic(() => import("./atoms/ImageShimmer"));
+//atoms  
 const Logo = dynamic(() => import("./atoms/Logo"));
 //molecules
-const PageHead = dynamic(() => import("./molecules/PageHead"));
-const NavItem = dynamic(() => import("./molecules/NavItem"));
-const Modal = dynamic(() => import("./molecules/Modal"));
-const IconBar = dynamic(() => import("./molecules/IconBar"));
-const SplashScreen = dynamic(() => import("./molecules/SplashScreen"));
-const HeaderContent = dynamic(() => import("./molecules/HeaderContent"));
+const PageHead = dynamic(() => import("./molecules/PageHead")); 
+const SplashScreen = dynamic(() => import("./molecules/SplashScreen")); 
 //organisms
 const Header = dynamic(() => import("./organisms/Header"));
-const Footer = dynamic(() => import("./organisms/Footer"));
-const Menu = dynamic(() => import("./organisms/Menu"));
-const ImageModal = dynamic(() => import("./organisms/ImageModal"));
+const Footer = dynamic(() => import("./organisms/Footer")); 
 const TokenList = dynamic(() => import("./organisms/TokenList"));
 //templates
 const PageLayout = dynamic(() => import("./templates/PageLayout"));
-const HomeView = dynamic(() => import("./templates/HomeView"));
-const AboutView = dynamic(() => import("./templates/AboutView"));
+const HomeView = dynamic(() => import("./templates/HomeView")); 
 
 export {
   PageHead,
@@ -40,27 +28,15 @@ export {
   Header,
   Footer,
   PageLayout,
-  ArrowIcon,
-  NumberInput,
-  TextInput,
-  CheckBox,
+  ArrowIcon, 
   TwitterIcon,
-  DiscordIcon,
-  LoadCircle,
+  DiscordIcon, 
   ExpIcon,
-  MenuIcon,
-  NavItem,
+  MenuIcon, 
   ExchangeIcon,
-  CloseIcon,
-  Modal,
-  Menu,
-  DownloadIcon,
-  IconBar,
+  CloseIcon, 
+  DownloadIcon, 
   SplashScreen,
-  HomeView,
-  ImageShimmer,
-  HeaderContent,
-  AboutView,
-  ImageModal,
+  HomeView, 
   TokenList
 }

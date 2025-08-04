@@ -1,13 +1,7 @@
 import { FC, ReactNode, useState } from "react";
-import {
-  PageHead,
-  Header,
-  Footer,
-  SplashScreen,
-  ImageModal,
-} from "@components";
+import { PageHead, Header, Footer, SplashScreen } from "@components";
 import { enterAnimation } from "@constants";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useViewStore } from "src/stores";
 
 interface Props {
@@ -57,17 +51,6 @@ const PageLayout: FC<Props> = (props: Props) => {
 
       {/* load screen */}
       {assets && <SplashScreen assets={assets} />}
-
-      {/* modals */}
-      <AnimatePresence mode="wait">
-        {showModal && (
-          <ImageModal
-            key="image-modal"
-            show={showModal}
-            close={() => setShowModal(false)}
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 };
