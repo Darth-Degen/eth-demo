@@ -25,7 +25,12 @@ module.exports = {
       },
       colors: {
         //custom
-
+        "eth-gray": {
+          600: "#2C2C2C",
+          700: "#242424",
+          800: "#1A1A1A",
+          900: "#121212",
+        },
         //template
         "template-black": "#121212",
         "template-white": "#F3F1EA",

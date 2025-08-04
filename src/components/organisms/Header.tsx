@@ -1,100 +1,57 @@
-import { FC, useEffect, useRef, useState } from "react";
-import {
-  motion,
-  useMotionValueEvent,
-  useScroll,
-  Variants,
-} from "framer-motion";
-import { HeaderContent } from "@components";
-interface Props {
-  showHeader?: boolean;
-  type?: string;
-}
+import { FC, useEffect, useState } from "react";
+import { useAccount, useBalance } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { formatEther } from "viem";
+import { AnimatePresence, motion } from "framer-motion";
+import { fastEnterAnimation } from "@constants";
 
-const Header: FC<Props> = (props: Props) => {
-  const { type = "absolute", showHeader = true } = props;
+const Header: FC = () => {
+  const [ethPriceUSD, setEthPriceUSD] = useState<number | null>(null);
 
-  const [animateHeader, setAnimateHeader] = useState<boolean>(true);
-
-  //scroll variables
-  const scrollRef = useRef<number>();
-  const { scrollY, scrollYProgress } = useScroll();
-  const height = 104;
-  const headerVariants: Variants = {
-    show: {
-      y: 0,
-      transition: {
-        delay: 0.25,
-        duration: 0.4,
-        ease: "easeInOut",
-      },
-    },
-    hidden: {
-      y: -height,
-      transition: {
-        delay: 0.25,
-        duration: 0.4,
-        ease: "easeInOut",
-      },
-    },
-  };
-
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // if (latest > 0.95) setAnimateHeader(true);
-    if (latest < 0.1) setAnimateHeader(true);
+  const { address: connectedAddress, isConnected } = useAccount();
+  const { data: ethBalance } = useBalance({
+    address: connectedAddress,
   });
 
-  //hide header on scroll down, show on scroll up
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    //first instance
-    if (scrollRef.current === undefined) {
-      setAnimateHeader(false);
-      scrollRef.current = latest;
-      return;
-    }
+  const ethAmount = ethBalance ? parseFloat(formatEther(ethBalance.value)) : 0;
+  const ethValueUSD = ethPriceUSD ? (ethAmount * ethPriceUSD).toFixed(2) : null;
 
-    //scroll down
-    if (scrollRef.current < latest) {
-      if (scrollRef.current + 30 < latest) {
-        setAnimateHeader(false);
-        scrollRef.current = latest;
-      }
-      return;
-    }
-
-    //scroll up
-    if (scrollRef.current > latest) {
-      if (scrollRef.current > latest + 30) {
-        setAnimateHeader(true);
-        scrollRef.current = latest;
-      }
-      return;
-    }
-  });
-
+  // Fetch ETH/USD price from CoinGecko
   useEffect(() => {
-    setAnimateHeader(showHeader);
-  }, [showHeader]);
+    const fetchEthPrice = async () => {
+      try {
+        const res = await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
+        );
+        const data = await res.json();
+        setEthPriceUSD(data.ethereum.usd);
+      } catch (error) {
+        console.error("Failed to fetch ETH price", error);
+      }
+    };
 
+    fetchEthPrice();
+  }, []);
   return (
-    <header
-      className={`top-0 z-10 transition-all duration-500 ${
-        type === "scroll" ? "fixed" : type
-      } `}
-    >
-      {type !== "scroll" ? (
-        <HeaderContent />
-      ) : (
-        <motion.aside
-          variants={headerVariants}
-          initial={showHeader ? "show" : "hidden"}
-          animate={animateHeader ? "show" : "hidden"}
-        >
-          <HeaderContent />
-        </motion.aside>
-      )}
-    </header>
+    <div className="flex justify-between items-center w-full px-4 md:px-16 py-6 md:py-8 bg-eth-gray-700 transtion-300">
+      <AnimatePresence mode="wait">
+        {ethBalance && (
+          <motion.div {...fastEnterAnimation} className="flex justify-start">
+            <p className="ml-2">
+              {parseFloat(formatEther(ethBalance.value)).toFixed(4)} ETH
+            </p>
+            {ethValueUSD && (
+              <p className="text-green-400 font-medium ml-2">
+                (${ethValueUSD})
+              </p>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className="flex justify-end flex-grow">
+        <ConnectButton />
+      </div>
+    </div>
   );
 };
-
 export default Header;

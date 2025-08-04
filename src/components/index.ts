@@ -28,6 +28,7 @@ const Header = dynamic(() => import("./organisms/Header"));
 const Footer = dynamic(() => import("./organisms/Footer"));
 const Menu = dynamic(() => import("./organisms/Menu"));
 const ImageModal = dynamic(() => import("./organisms/ImageModal"));
+const TokenList = dynamic(() => import("./organisms/TokenList"));
 //templates
 const PageLayout = dynamic(() => import("./templates/PageLayout"));
 const HomeView = dynamic(() => import("./templates/HomeView"));
@@ -60,5 +61,6 @@ export {
   ImageShimmer,
   HeaderContent,
   AboutView,
-  ImageModal
+  ImageModal,
+  TokenList
 }

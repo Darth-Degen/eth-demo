@@ -15,7 +15,6 @@ interface Props {
   footer?: boolean;
   fixed?: boolean; //prevents scroll
   absolute?: boolean; //allows scroll
-  headerType?: string;
   assets?: boolean[];
 }
 
@@ -24,7 +23,6 @@ const PageLayout: FC<Props> = (props: Props) => {
     footer = true,
     fixed = false,
     absolute = false,
-    headerType = "absolute",
     children,
     assets = [],
   } = props;
@@ -44,7 +42,7 @@ const PageLayout: FC<Props> = (props: Props) => {
         twitter="twitterhandle"
       />
       {/* header */}
-      {/* <Header type={headerType} /> */}
+      <Header />
 
       {/* body */}
       <motion.main

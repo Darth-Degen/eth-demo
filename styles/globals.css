@@ -50,7 +50,7 @@ a {
 
 @layer base {
   html {
-    @apply scroll-smooth bg-fixed bg-template-black text-template-white font-primary;
+    @apply scroll-smooth bg-fixed bg-eth-gray-900 text-template-white font-primary;
   }
   h1 {
     @apply font-primary;
@@ -63,6 +63,9 @@ a {
   }
   h4 {
     @apply font-primary uppercase text-2xl md:text-3xl;
+  }
+  p {
+    @apply font-primary text-sm md:text-lg;
   }
 }
 

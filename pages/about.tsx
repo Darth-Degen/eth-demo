@@ -13,7 +13,7 @@ const About: NextPage = () => {
   const [assets, setAssets] = useState<boolean[]>([false, false]);
 
   return (
-    <PageLayout headerType="absolute" assets={assets}>
+    <PageLayout assets={assets}>
       <AboutView setAssets={setAssets} />
     </PageLayout>
   );
