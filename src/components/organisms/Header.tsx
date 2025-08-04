@@ -46,7 +46,7 @@ const Header: FC = () => {
       </AnimatePresence>
 
       <div className="flex justify-end flex-grow">
-        <ConnectButton />
+        <ConnectButton chainStatus="icon" />
       </div>
     </div>
   );

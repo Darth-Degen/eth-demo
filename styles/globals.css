@@ -145,3 +145,30 @@ html {
 .page-padding {
   @apply px-4 md:px-16 py-6 md:py-8;
 }
+.page-padding-x {
+  @apply px-4 md:px-16;
+}
+.page-padding-y {
+  @apply py-6 md:py-8;
+}
+
+
+/* global custom scrollbar styles */
+.scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f3f #121212; /* thumb, track */
+}
+
+/* Chrome, Edge, Safari */
+.scrollbar-custom::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: #121212; /* eth-gray-900 */
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #3f3f3f; /* gray-700 */
+  border-radius: 9999px;
+}

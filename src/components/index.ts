@@ -14,6 +14,8 @@ const Logo = dynamic(() => import("./atoms/Logo"));
 //molecules
 const PageHead = dynamic(() => import("./molecules/PageHead")); 
 const SplashScreen = dynamic(() => import("./molecules/SplashScreen")); 
+const TokenListItem = dynamic(() => import("./molecules/TokenListItem"));
+const TokenActions = dynamic(() => import("./molecules/TokenActions"));
 //organisms
 const Header = dynamic(() => import("./organisms/Header"));
 const Footer = dynamic(() => import("./organisms/Footer")); 
@@ -38,5 +40,7 @@ export {
   DownloadIcon, 
   SplashScreen,
   HomeView, 
-  TokenList
+  TokenList,
+  TokenListItem,
+  TokenActions
 }

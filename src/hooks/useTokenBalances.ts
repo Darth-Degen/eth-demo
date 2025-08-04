@@ -61,7 +61,9 @@ const fetchTokenBalances = async ({
     const meta = await metaRes.json();
     const decimals = meta.result.decimals || 18;
     const formatted = Number(token.tokenBalance) / Math.pow(10, decimals);
-
+    console.log(
+      `Token: ${meta.result.name} (${meta.result.symbol}), Balance: ${formatted}, Price: ${meta.result.usdPrice}`
+    )
     return {
       contractAddress: token.contractAddress,
       name: meta.result.name,
