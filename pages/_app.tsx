@@ -15,9 +15,19 @@ import {
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { useMemo } from "react";
 import { Toaster } from "react-hot-toast";
-
 // Default styles that can be overridden by your app
 require("@solana/wallet-adapter-react-ui/styles.css");
+
+//eth packages
+import { WagmiProvider } from "wagmi";
+// import { config } from "../config";
+import { config } from "../rainbow-config";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import "@rainbow-me/rainbowkit/styles.css";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+
+const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps }: AppProps) => {
   const network = WalletAdapterNetwork.Mainnet;
@@ -34,28 +44,34 @@ const App = ({ Component, pageProps }: AppProps) => {
   );
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>
-          <Component {...pageProps} />
-          <Toaster
-            position="bottom-right"
-            toastOptions={{
-              style: {
-                border: "2px solid #0D864C",
-                padding: "16px",
-                color: "#fff",
-                backgroundColor: "#020202",
-              },
-              iconTheme: {
-                primary: "#0D864C",
-                secondary: "#454545",
-              },
-            }}
-          />
-        </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
+          <ConnectionProvider endpoint={endpoint}>
+            <WalletProvider wallets={wallets} autoConnect>
+              <WalletModalProvider>
+                <Component {...pageProps} />
+                <Toaster
+                  position="bottom-right"
+                  toastOptions={{
+                    style: {
+                      border: "2px solid #0D864C",
+                      padding: "16px",
+                      color: "#fff",
+                      backgroundColor: "#020202",
+                    },
+                    iconTheme: {
+                      primary: "#0D864C",
+                      secondary: "#454545",
+                    },
+                  }}
+                />
+              </WalletModalProvider>
+            </WalletProvider>
+          </ConnectionProvider>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 };
 
