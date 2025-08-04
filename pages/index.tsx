@@ -1,4 +1,4 @@
-import { LandingView } from "@components";
+import { HomeView } from "@components";
 import { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useState } from "react";
@@ -14,7 +14,7 @@ const Home: NextPage = () => {
 
   return (
     <PageLayout footer={false} fixed={true} assets={assets}>
-      <LandingView setAssets={setAssets} />
+      <HomeView setAssets={setAssets} />
     </PageLayout>
   );
 };

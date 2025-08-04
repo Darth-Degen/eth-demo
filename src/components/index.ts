@@ -30,7 +30,7 @@ const Menu = dynamic(() => import("./organisms/Menu"));
 const ImageModal = dynamic(() => import("./organisms/ImageModal"));
 //templates
 const PageLayout = dynamic(() => import("./templates/PageLayout"));
-const LandingView = dynamic(() => import("./templates/LandingView"));
+const HomeView = dynamic(() => import("./templates/HomeView"));
 const AboutView = dynamic(() => import("./templates/AboutView"));
 
 export {
@@ -56,7 +56,7 @@ export {
   DownloadIcon,
   IconBar,
   SplashScreen,
-  LandingView,
+  HomeView,
   ImageShimmer,
   HeaderContent,
   AboutView,
