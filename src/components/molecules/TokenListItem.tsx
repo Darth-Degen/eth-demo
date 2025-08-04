@@ -1,20 +1,27 @@
 "use client";
-import { TokenActions } from "@components";
 import { Token } from "@types";
 import { FC, HTMLAttributes } from "react";
+import TokenActions from "./TokenActions";
+import { motion, Variants } from "framer-motion";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   token: Token;
+  variants: Variants;
 }
 
-const TokenListItem: FC<Props> = ({ token }) => {
+const TokenListItem: FC<Props> = ({ token, variants }) => {
   const { symbol, name, balance, usdValue } = token;
-
   const canSend = balance > 0;
-  const isDust = balance === 0;
 
   return (
-    <div className="grid grid-cols-4 gap-4 py-2 items-center border-b border-eth-gray-800 hover:bg-eth-gray-800/50 transition-colors">
+    <motion.div
+      layout
+      variants={variants}
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+      className="grid grid-cols-4 gap-4 py-2 items-center border-b border-eth-gray-800 hover:bg-eth-gray-800/50 transition-colors"
+    >
       {/* Token name */}
       <div>
         <p className="font-semibold text-white">{symbol}</p>
@@ -38,7 +45,7 @@ const TokenListItem: FC<Props> = ({ token }) => {
 
       {/* Actions */}
       <TokenActions token={token} />
-    </div>
+    </motion.div>
   );
 };
 

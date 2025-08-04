@@ -1,10 +1,26 @@
 "use client";
 import { TokenListItem } from "@components";
 import { useTokenBalances } from "@hooks";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import { FC, HTMLAttributes } from "react";
 import { useAccount } from "wagmi";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
+
+const containerVariants: Variants = {
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+      duration: 0.3,
+      ease: "easeInOut",
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.3 } },
+};
 
 const TokenList: FC<Props> = (props) => {
   const { isConnected } = useAccount();
@@ -13,7 +29,12 @@ const TokenList: FC<Props> = (props) => {
   if (!isConnected) return null;
 
   return (
-    <div {...props} className="page-padding-yw-full h-full">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="page-padding-yw-full h-full"
+    >
       <h2 className="page-padding text-2xl font-semibold">Your Tokens</h2>
 
       {/* Loading */}
@@ -40,18 +61,23 @@ const TokenList: FC<Props> = (props) => {
           <p className="text-right">Actions</p>
         </div>
       )}
-      <div className="scrollbar-custom page-padding-x relative h-[50vh] overflow-y-auto">
-        {/* Token rows */}
-        {!loading &&
-          tokens.map((token) => {
-            if (token.name) {
-              return (
-                <TokenListItem key={token.contractAddress} token={token} />
-              );
-            }
-          })}
-      </div>
-    </div>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="scrollbar-custom page-padding-x relative h-[50vh] overflow-y-auto"
+      >
+        {tokens.map((token) =>
+          token.name ? (
+            <TokenListItem
+              key={token.contractAddress}
+              token={token}
+              variants={itemVariants}
+            />
+          ) : null
+        )}
+      </motion.div>
+    </motion.div>
   );
 };
 
