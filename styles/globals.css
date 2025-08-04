@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('../public/fonts/manrope/Manrope-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Manrope';
+  src: url('../public/fonts/manrope/Manrope-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Manrope';
+  src: url('../public/fonts/manrope/Manrope-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Manrope';
+  src: url('../public/fonts/manrope/Manrope-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Manrope';
+  src: url('../public/fonts/manrope/Manrope-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Manrope';
+  src: url('../public/fonts/manrope/Manrope-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth bg-fixed bg-template-black text-template-white font-primary;
+  }
+  h1 {
+    @apply font-primary;
+  }
+  h2 {
+    @apply font-primary uppercase text-5xl md:text-[64px];
+  }
+  h3 {
+    @apply font-primary uppercase text-4xl md:text-[54px];
+  }
+  h4 {
+    @apply font-primary uppercase text-2xl md:text-3xl;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 200% 0%;
+  }
+}
+
+/* Wallet Adapter */
+
+.wallet-adapter-modal-wrapper { 
+  @apply !rounded-sm !bg-opacity-90 !uppercase;
+}
+.wallet-adapter-modal-wrapper h1{ 
+  @apply !text-white;
+}
+.wallet-adapter-button { 
+  @apply hover:!bg-opacity-100;
+}
+.wallet-adapter-modal-button-close{
+  @apply !bg-transparent;
+}
+
+/*  Layout  */
+
+.row-centered {
+  @apply flex items-center justify-center;
+}
+.row-between {
+  @apply flex items-center justify-between;
+}
+.row-start {
+  @apply flex items-start justify-start;
+}
+.row-evenly {
+  @apply flex items-center justify-evenly;
+}
+.row-around {
+  @apply flex items-center justify-around;
+}
+.col-centered {
+  @apply flex flex-col items-center justify-center;
+}
+.col-start {
+  @apply flex flex-col items-start justify-start;
+}
+.col-evenly {
+  @apply flex flex-col items-center justify-evenly;
+}
+.col-around {
+  @apply flex flex-col items-center justify-around;
+}
+
+/* Animations */
+.transition-1000{
+  @apply transition-all duration-1000;
+}
+.transition-500{
+  @apply transition-all duration-500;
+}
+.transition-300{
+  @apply transition-all duration-300;
+}
+.transition-200{
+  @apply transition-all duration-300;
+}
