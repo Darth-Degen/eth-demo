@@ -24,10 +24,11 @@ const Header: FC = () => {
     ethPriceUSD != null ? (ethAmount * ethPriceUSD).toFixed(2) : null;
 
   // render logic
-  const showEthInfo = !isEthPriceLoading && ethBalance && !isEthPriceError;
+  const showEthInfo =
+    !isEthPriceLoading && ethBalance && !isEthPriceError && isConnected;
 
   return (
-    <div className="flex justify-between items-center w-full px-4 md:px-16 py-6 md:py-8 md:min-h-[104px] bg-eth-gray-700 transition-300">
+    <div className="page-padding flex justify-between items-center w-full md:min-h-[104px] bg-eth-gray-700 transition-300">
       <AnimatePresence mode="wait">
         {showEthInfo && (
           <motion.div {...fastEnterAnimation} className="flex justify-start">
