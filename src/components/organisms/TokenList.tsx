@@ -23,16 +23,14 @@ const TokenList: FC<Props> = (props) => {
       {!loading &&
         tokens.length > 0 &&
         tokens.map((token) => {
-          if (token.balance > 0) {
-            return (
-              <div key={token.contractAddress} className="py-1">
-                {token.symbol} - {token.balance}
-              </div>
-            );
-          }
+          return (
+            <div key={token.contractAddress} className="py-1">
+              {token.symbol} - {token.balance}
+            </div>
+          );
         })}
     </div>
   );
 };
-//<p>No tokens found</p>
+
 export default TokenList;

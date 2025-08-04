@@ -1,11 +1,36 @@
-import { useAccount } from 'wagmi';
+import { useAccount, useChainId } from 'wagmi';
 import { useQuery } from '@tanstack/react-query';
 import { Token } from '@types';
 
-const ALCHEMY_URL = `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`;
 
-// Fetcher function for token balances + metadata
-const fetchTokenBalances = async (address: `0x${string}`): Promise<Token[]> => {
+// Returns the correct Alchemy RPC URL based on chainId. 
+const getAlchemyUrl = (chainId: number) => {
+  const baseKey = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
+  if (!baseKey) return null;
+
+  switch (chainId) {
+    case 1:
+      return `https://eth-mainnet.g.alchemy.com/v2/${baseKey}`;
+    case 8453:
+      return `https://base-mainnet.g.alchemy.com/v2/${baseKey}`;
+    default:
+      return null; // Unsupported chain
+  }
+};
+
+
+// Fetches ERC-20 token balances + metadata for a given address and chain. 
+const fetchTokenBalances = async ({
+  address,
+  chainId,
+}: {
+  address: `0x${string}`;
+  chainId: number;
+}): Promise<Token[]> => {
+  const ALCHEMY_URL = getAlchemyUrl(chainId);
+  if (!ALCHEMY_URL) throw new Error('Unsupported network');
+
+  // Step 1: Get raw balances
   const res = await fetch(ALCHEMY_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -20,8 +45,7 @@ const fetchTokenBalances = async (address: `0x${string}`): Promise<Token[]> => {
   const result = await res.json();
   const balances = result.result.tokenBalances;
 
-  // console.log("Token Balances:", balances);
-
+  // Step 2: Get metadata (name, symbol, decimals, price) for each token
   const metadataPromises = balances.map(async (token: any) => {
     const metaRes = await fetch(ALCHEMY_URL, {
       method: 'POST',
@@ -43,28 +67,33 @@ const fetchTokenBalances = async (address: `0x${string}`): Promise<Token[]> => {
       name: meta.result.name,
       symbol: meta.result.symbol,
       balance: formatted,
-      usdValue: meta.result.usdPrice ? formatted * meta.result.usdPrice : 0,
+      usdValue: meta.result.usdPrice
+        ? formatted * meta.result.usdPrice
+        : 0,
     };
   });
 
+  // Step 3: Format, filter, and sort token list
   const resolved = await Promise.all(metadataPromises);
-  // console.log("Token Metadata:", resolved);
-  return resolved
-  .sort((a, b) => b.balance - a.balance);
 
+  return resolved 
+    .sort((a, b) => b.balance - a.balance); // Sort descending
 };
 
-// Custom hook using React Query
+
+// Custom React hook to fetch token balances for the connected wallet.
+ 
 export const useTokenBalances = () => {
   const { address, isConnected } = useAccount();
+  const chainId = useChainId();
 
   const query = useQuery<Token[]>({
-    queryKey: ['tokenBalances', address],
-    queryFn:  async () => await fetchTokenBalances(address!),
-    enabled: !!isConnected && !!address,  
-    staleTime: 60 * 1000,  
+    queryKey: ['tokenBalances', address, chainId],  
+    queryFn: () => fetchTokenBalances({ address: address!, chainId }),
+    enabled: !!isConnected && !!address && !!chainId,
+    staleTime: 60 * 1000,        
     refetchInterval: 60 * 1000,  
-    retry: 1,
+    retry: 1,                    
   });
 
   return {
