@@ -20,12 +20,12 @@ const TokenActions: FC<Props> = ({ token }) => {
   };
 
   return (
-    <div className="flex justify-end gap-4 text-sm">
+    <div className="flex justify-end gap-0 text-sm">
       {/* Send */}
       <button
-        className={`${
+        className={`p-2 md:p-3 ${
           canSend
-            ? "text-white transition-200 py-2"
+            ? "text-white transition-200"
             : "text-gray-500 cursor-not-allowed"
         }`}
         disabled={!canSend}
@@ -37,7 +37,7 @@ const TokenActions: FC<Props> = ({ token }) => {
 
       {/* Exchange */}
       <button
-        className="text-yellow-300 py-2"
+        className="text-yellow-300 p-2 md:p-3"
         onClick={openUniswap}
         title="Exchange"
       >
