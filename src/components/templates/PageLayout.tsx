@@ -5,10 +5,11 @@ import {
   Footer,
   SplashScreen,
   SendTokenModal,
+  SwapModal,
 } from "@components";
 import { enterAnimation } from "@constants";
 import { AnimatePresence, motion } from "framer-motion";
-import { useSendModalStore } from "@hooks";
+import { useSendModalStore, useSwapModalStore } from "@hooks";
 
 interface Props {
   children: ReactNode;
@@ -28,6 +29,11 @@ const PageLayout: FC<Props> = (props: Props) => {
   } = props;
 
   const { isOpen, token, closeModal } = useSendModalStore();
+  const {
+    isOpen: isSwapOpen,
+    token: swapToken,
+    close: closeSwapModal,
+  } = useSwapModalStore();
 
   return (
     <div
@@ -36,8 +42,8 @@ const PageLayout: FC<Props> = (props: Props) => {
       }`}
     >
       <PageHead
-        title="Name"
-        description="Description"
+        title="Eth Demo"
+        description="My first eth app"
         url="https://addurl.xyz" // no backslash at the end
         twitter="twitterhandle"
       />
@@ -65,6 +71,15 @@ const PageLayout: FC<Props> = (props: Props) => {
             show={isOpen}
             close={() => closeModal()}
             token={token}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence mode="wait">
+        {isSwapOpen && (
+          <SwapModal
+            show={isSwapOpen}
+            close={() => closeSwapModal()}
+            token={swapToken}
           />
         )}
       </AnimatePresence>

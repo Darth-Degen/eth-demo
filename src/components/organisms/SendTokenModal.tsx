@@ -64,11 +64,7 @@ const SendTokenModal: FC<Props> = (props: Props) => {
   };
 
   return (
-    <Modal
-      show={show}
-      onClick={() => close()}
-      className="w-[95vw] sm:w-[500px] h-[360px]"
-    >
+    <Modal show={show} onClick={() => close()}>
       {token ? (
         <div className="flex items-center justify-center h-full">
           <div className="bg-eth-gray-800 text-white p-6 rounded-lg w-full max-w-md space-y-4">

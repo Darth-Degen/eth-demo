@@ -25,6 +25,7 @@ const Header = dynamic(() => import("./organisms/Header"));
 const Footer = dynamic(() => import("./organisms/Footer")); 
 const TokenList = dynamic(() => import("./organisms/TokenList"));
 const SendTokenModal = dynamic(() => import("./organisms/SendTokenModal"));
+const SwapModal = dynamic(() => import("./organisms/SwapModal"));
 //templates
 const PageLayout = dynamic(() => import("./templates/PageLayout"));
 const HomeView = dynamic(() => import("./templates/HomeView")); 
@@ -52,5 +53,6 @@ export {
   Modal,
   NumberInput,
   TextInput,
-  TokenPrice
+  TokenPrice,
+  SwapModal
 }

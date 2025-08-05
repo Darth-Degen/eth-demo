@@ -1,5 +1,5 @@
 "use client";
-import { useSendModalStore } from "@hooks";
+import { useSendModalStore, useSwapModalStore } from "@hooks";
 import { Token } from "@types";
 import { FC } from "react";
 import { FiSend, FiRefreshCw } from "react-icons/fi";
@@ -9,15 +9,11 @@ interface Props {
 }
 
 const TokenActions: FC<Props> = ({ token }) => {
-  const { balance, symbol, contractAddress } = token;
+  const { balance, contractAddress } = token;
   const canSend = balance > 0;
 
   const openSendModal = useSendModalStore((s) => s.openModal);
-
-  const openUniswap = () => {
-    const uniswapUrl = `https://www.sushi.com/base/swap?token0=${contractAddress}`;
-    window.open(uniswapUrl, "_blank");
-  };
+  const openSwapModal = useSwapModalStore((s) => s.open);
 
   return (
     <div className="flex justify-end gap-0 text-sm">
@@ -38,7 +34,7 @@ const TokenActions: FC<Props> = ({ token }) => {
       {/* Exchange */}
       <button
         className="text-yellow-300 p-2 md:p-3 transition-200 hover:lg:scale-125"
-        onClick={openUniswap}
+        onClick={() => openSwapModal(token)}
         title="Exchange"
       >
         <FiRefreshCw size={20} />
