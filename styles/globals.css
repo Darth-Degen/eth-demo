@@ -172,3 +172,14 @@ html {
   background-color: #3f3f3f; /* gray-700 */
   border-radius: 9999px;
 }
+
+/* Remove number input arrows */
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-spinner[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}

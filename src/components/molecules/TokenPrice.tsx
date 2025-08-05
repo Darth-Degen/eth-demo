@@ -8,17 +8,12 @@ interface Props {
 }
 
 const TokenPrice: FC<Props> = ({ usdPrice, token }) => {
-  // const { data: priceUSD, isLoading, isError } = useTokenPrice(contractAddress);
-
-  // if (isLoading) return <p className="text-right text-gray-500">...</p>;
-  // if (isError) return <p className="text-right text-red-400">Err</p>;
-
   const totalUSD = token.balance * usdPrice;
 
   return (
     <div className="">
       {token.balance > 0 ? (
-        <p className="text-right text-green-500 font-medium">
+        <p className="text-right text-green-400 font-medium">
           {totalUSD > 0 ? (
             `$${totalUSD.toFixed(2)}`
           ) : (

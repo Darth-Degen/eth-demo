@@ -32,7 +32,7 @@ const Header: FC = () => {
       <AnimatePresence mode="wait">
         {showEthInfo && (
           <motion.div {...fastEnterAnimation} className="flex justify-start">
-            <p className="ml-2">{ethAmount.toFixed(4)} ETH</p>
+            <p className="ml-2 hidden sm:block">{ethAmount.toFixed(4)} ETH</p>
             {ethValueUSD && (
               <p className="text-green-400 font-medium ml-2">
                 (${ethValueUSD})
