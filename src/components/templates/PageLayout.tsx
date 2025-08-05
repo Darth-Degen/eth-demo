@@ -60,7 +60,13 @@ const PageLayout: FC<Props> = (props: Props) => {
 
       {/* modal */}
       <AnimatePresence mode="wait">
-        {isOpen && <SendTokenModal show={isOpen} close={() => closeModal()} />}
+        {isOpen && (
+          <SendTokenModal
+            show={isOpen}
+            close={() => closeModal()}
+            token={token}
+          />
+        )}
       </AnimatePresence>
     </div>
   );

@@ -65,7 +65,7 @@ const TokenList: FC<Props> = (props) => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="scrollbar-custom page-padding-x relative h-[50vh] overflow-y-auto"
+        className="scrollbar-custom relative h-[50vh] overflow-y-auto"
       >
         {tokens.map((token) =>
           token.name ? (

@@ -69,10 +69,10 @@ export const fastEnterAnimation = {
 };
 
 export const scaleExitAnimation = {
-  initial: { opacity: 0, scale: 0.3 },
+  initial: { opacity: 0, scale: 0.5 },
   animate: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.2 },
-  transition: { duration: 0.4, ease: "easeInOut" },
+  exit: { opacity: 0, scale: 0.5 },
+  transition: { duration: 0.2, ease: "easeInOut" },
 };
 //variants
 export const arrowVariants: Variants = {

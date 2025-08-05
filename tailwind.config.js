@@ -31,6 +31,14 @@ module.exports = {
           800: "#1A1A1A",
           900: "#121212",
         },
+        "eth-purple": {
+          DEFAULT: "#7b3fe4",
+          400: "#8852e6",
+          500: "#7b3fe4",
+          600: "#6e38cd",
+          700: "#6232b6",
+          800: "#562c9f",
+        },
         //template
         "template-black": "#121212",
         "template-white": "#F3F1EA",

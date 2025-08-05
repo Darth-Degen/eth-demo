@@ -20,7 +20,7 @@ const TokenListItem: FC<Props> = ({ token, variants }) => {
       initial="hidden"
       animate="visible"
       exit="hidden"
-      className="grid grid-cols-4 gap-4 py-2 items-center border-b border-eth-gray-800 hover:bg-eth-gray-800/50 transition-colors"
+      className="page-padding-x grid grid-cols-4 gap-4 py-2 items-center border-b border-eth-gray-800 hover:bg-eth-gray-800/50 transition-colors"
     >
       {/* Token name */}
       <div>
