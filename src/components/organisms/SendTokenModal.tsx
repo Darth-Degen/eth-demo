@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { Modal } from "@components";
 import { Token } from "@types";
-import { useSendToken } from "@hooks";
+import { useSendToken, useTokenBalances } from "@hooks";
 import { toast } from "react-hot-toast";
 
 interface Props {
@@ -17,8 +17,8 @@ const SendTokenModal: FC<Props> = (props: Props) => {
   const [amount, setAmount] = useState<string>("");
 
   const { sendToken, isPending, error, txHash } = useSendToken();
+  const { refetch } = useTokenBalances();
 
-  console.log("token.decimals:", token?.decimals);
   const handleSend = async () => {
     if (!token) {
       toast.error("No token found");
@@ -36,6 +36,7 @@ const SendTokenModal: FC<Props> = (props: Props) => {
       });
 
       toast.success("Token sent!", { id: toastId });
+      await refetch(); // refresh token balances after sending
       close(); // close modal on success
     } catch (err: any) {
       toast.error(err?.message || "Transaction failed", { id: toastId });

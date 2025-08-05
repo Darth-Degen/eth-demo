@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Token } from '@types';
 
 
-// Returns the correct Alchemy RPC URL based on chainId. 
+// returns the correct Alchemy RPC URL based on chainId. 
 const getAlchemyUrl = (chainId: number) => {
   const baseKey = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
   if (!baseKey) return null;
@@ -19,7 +19,7 @@ const getAlchemyUrl = (chainId: number) => {
 };
 
 
-// Fetches ERC-20 token balances + metadata for a given address and chain. 
+// fetches ERC-20 token balances + metadata for a given address and chain. 
 const fetchTokenBalances = async ({
   address,
   chainId,
@@ -30,7 +30,7 @@ const fetchTokenBalances = async ({
   const ALCHEMY_URL = getAlchemyUrl(chainId);
   if (!ALCHEMY_URL) throw new Error('Unsupported network');
 
-  // Step 1: Get raw balances
+  // step 1: get raw balances
   const res = await fetch(ALCHEMY_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -45,7 +45,7 @@ const fetchTokenBalances = async ({
   const result = await res.json();
   const balances = result.result.tokenBalances;
 
-  // Step 2: Get metadata (name, symbol, decimals, price) for each token
+  // step 2: get metadata (name, symbol, decimals, price) for each token
   const metadataPromises = balances.map(async (token: any) => {
     const metaRes = await fetch(ALCHEMY_URL, {
       method: 'POST',
@@ -61,9 +61,8 @@ const fetchTokenBalances = async ({
     const meta = await metaRes.json();
     const decimals = meta.result.decimals || 18;
     const formatted = Number(token.tokenBalance) / Math.pow(10, decimals);
-    console.log(
-      `Token: ${meta.result.name} (${meta.result.symbol}), Balance: ${formatted}, Price: ${meta.result.usdPrice}`
-    )
+    
+
     return {
       contractAddress: token.contractAddress,
       name: meta.result.name,
@@ -76,15 +75,15 @@ const fetchTokenBalances = async ({
     };
   });
 
-  // Step 3: Format, filter, and sort token list
+  // step 3: format, filter, and sort token list
   const resolved = await Promise.all(metadataPromises);
 
   return resolved 
-    .sort((a, b) => b.balance - a.balance); // Sort descending
+    .sort((a, b) => b.balance - a.balance);  
 };
 
 
-// Custom React hook to fetch token balances for the connected wallet.
+// fetch token balances for the connected wallet.
  
 export const useTokenBalances = () => {
   const { address, isConnected } = useAccount();

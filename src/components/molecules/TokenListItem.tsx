@@ -30,7 +30,7 @@ const TokenListItem: FC<Props> = ({ token, variants }) => {
 
       {/* Balance */}
       <p className="text-right text-white">
-        {balance.toFixed(4)}{" "}
+        {Number.isInteger(balance) ? balance : balance.toFixed(4)}{" "}
         {canSend ? (
           <span className="text-green-500">✓</span>
         ) : (
