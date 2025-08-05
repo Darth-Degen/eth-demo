@@ -11,6 +11,8 @@ const CloseIcon = dynamic(() => import("./@icons/CloseIcon"));
 const DownloadIcon = dynamic(() => import("./@icons/DownloadIcon"));
 //atoms  
 const Logo = dynamic(() => import("./atoms/Logo"));
+const NumberInput = dynamic(() => import("./atoms/NumberInput"));
+const TextInput = dynamic(() => import("./atoms/TextInput"));
 //molecules
 const PageHead = dynamic(() => import("./molecules/PageHead")); 
 const SplashScreen = dynamic(() => import("./molecules/SplashScreen")); 
@@ -46,5 +48,7 @@ export {
   TokenListItem,
   TokenActions,
   SendTokenModal,
-  Modal
+  Modal,
+  NumberInput,
+  TextInput,
 }

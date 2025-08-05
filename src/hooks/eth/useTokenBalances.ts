@@ -72,6 +72,7 @@ const fetchTokenBalances = async ({
       usdValue: meta.result.usdPrice
         ? formatted * meta.result.usdPrice
         : 0,
+      decimals: decimals,
     };
   });
 
