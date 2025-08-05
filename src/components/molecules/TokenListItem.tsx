@@ -3,14 +3,17 @@ import { Token } from "@types";
 import { FC, HTMLAttributes } from "react";
 import TokenActions from "./TokenActions";
 import { motion, Variants } from "framer-motion";
+import { useTokenPrice } from "@hooks"; // or wherever it's defined
+import { TokenPrice } from "@components";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   token: Token;
   variants: Variants;
+  usdPrice: number;
 }
 
-const TokenListItem: FC<Props> = ({ token, variants }) => {
-  const { symbol, name, balance, usdValue } = token;
+const TokenListItem: FC<Props> = ({ token, variants, usdPrice }) => {
+  const { symbol, name, balance } = token;
   const canSend = balance > 0;
 
   return (
@@ -40,7 +43,7 @@ const TokenListItem: FC<Props> = ({ token, variants }) => {
 
       {/* USD Value */}
       <p className="text-right text-green-500 font-medium">
-        {usdValue > 0 ? `$${usdValue.toFixed(2)}` : "--"}
+        <TokenPrice token={token} usdPrice={usdPrice} />
       </p>
 
       {/* Actions */}

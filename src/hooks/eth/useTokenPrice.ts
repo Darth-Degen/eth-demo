@@ -12,7 +12,7 @@ export const useTokenPrice = (contractAddress: `0x${string}`) => {
       return data[contractAddress.toLowerCase()]?.usd ?? 0;
     },
     enabled: !!contractAddress,
-    staleTime: 60_000, // 1 minute
-    refetchInterval: 60_000,
+    staleTime: 60 * 1000,
+    refetchInterval: 60 * 1000,
   });
 };

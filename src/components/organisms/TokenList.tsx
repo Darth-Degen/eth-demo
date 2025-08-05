@@ -4,6 +4,7 @@ import { useTokenBalances } from "@hooks";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { FC, HTMLAttributes } from "react";
 import { useAccount } from "wagmi";
+import { useUsdPrices } from "@hooks";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -25,6 +26,12 @@ const itemVariants: Variants = {
 const TokenList: FC<Props> = (props) => {
   const { isConnected } = useAccount();
   const { tokens, loading, error } = useTokenBalances();
+
+  // const tokensWithBalance = tokens.filter((t) => t.balance > 0);
+  const contractAddresses = tokens
+    .filter((t) => t.balance > 0)
+    .map((t) => t.contractAddress);
+  const { data: usdPrices } = useUsdPrices(contractAddresses);
 
   if (!isConnected) return null;
 
@@ -73,6 +80,9 @@ const TokenList: FC<Props> = (props) => {
               key={token.contractAddress}
               token={token}
               variants={itemVariants}
+              usdPrice={
+                usdPrices?.[token.contractAddress.toLowerCase()]?.usd ?? 0
+              }
             />
           ) : null
         )}

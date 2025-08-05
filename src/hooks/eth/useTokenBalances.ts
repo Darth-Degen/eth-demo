@@ -93,8 +93,8 @@ export const useTokenBalances = () => {
     queryKey: ['tokenBalances', address, chainId],  
     queryFn: () => fetchTokenBalances({ address: address!, chainId }),
     enabled: !!isConnected && !!address && !!chainId,
-    staleTime: 60 * 1000,        
-    refetchInterval: 60 * 1000,  
+    staleTime: 600 * 1000,        
+    refetchInterval: 600 * 1000,  
     retry: 1,                    
   });
 

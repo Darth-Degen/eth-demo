@@ -19,6 +19,7 @@ const SplashScreen = dynamic(() => import("./molecules/SplashScreen"));
 const TokenListItem = dynamic(() => import("./molecules/TokenListItem"));
 const TokenActions = dynamic(() => import("./molecules/TokenActions"));
 const Modal = dynamic(() => import("./molecules/Modal"));
+const TokenPrice = dynamic(() => import("./molecules/TokenPrice"));
 //organisms
 const Header = dynamic(() => import("./organisms/Header"));
 const Footer = dynamic(() => import("./organisms/Footer")); 
@@ -51,4 +52,5 @@ export {
   Modal,
   NumberInput,
   TextInput,
+  TokenPrice
 }

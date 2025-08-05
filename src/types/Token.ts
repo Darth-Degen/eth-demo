@@ -1,5 +1,5 @@
 export interface Token {
-  contractAddress: string;
+  contractAddress: `0x${string}`;
   name: string;
   symbol: string;
   balance: number;
