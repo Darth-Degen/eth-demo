@@ -3,7 +3,6 @@ import { Token } from "@types";
 import { FC, HTMLAttributes } from "react";
 import TokenActions from "./TokenActions";
 import { motion, Variants } from "framer-motion";
-import { useTokenPrice } from "@hooks"; // or wherever it's defined
 import { TokenPrice } from "@components";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -35,9 +34,9 @@ const TokenListItem: FC<Props> = ({ token, variants, usdPrice }) => {
       <p className="text-right text-white">
         {Number.isInteger(balance) ? balance : balance.toFixed(4)}{" "}
         {canSend ? (
-          <span className="text-green-400 hidden lg:block">✓</span>
+          <span className="text-green-400 hidden lg:inline">✓</span>
         ) : (
-          <span className="text-red-500 hidden lg:block">✗</span>
+          <span className="text-red-500 hidden lg:inline">✗</span>
         )}
       </p>
 

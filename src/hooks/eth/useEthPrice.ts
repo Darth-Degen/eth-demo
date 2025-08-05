@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 
-// Define the expected shape of CoinGecko API response
 interface CoinGeckoPriceResponse {
   ethereum: {
     usd: number;

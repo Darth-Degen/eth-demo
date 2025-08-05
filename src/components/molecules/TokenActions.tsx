@@ -25,7 +25,7 @@ const TokenActions: FC<Props> = ({ token }) => {
       <button
         className={`p-2 md:p-3 ${
           canSend
-            ? "text-white transition-200"
+            ? "text-white transition-200 hover:lg:scale-125"
             : "text-gray-500 cursor-not-allowed"
         }`}
         disabled={!canSend}
@@ -37,7 +37,7 @@ const TokenActions: FC<Props> = ({ token }) => {
 
       {/* Exchange */}
       <button
-        className="text-yellow-300 p-2 md:p-3"
+        className="text-yellow-300 p-2 md:p-3 transition-200 hover:lg:scale-125"
         onClick={openUniswap}
         title="Exchange"
       >
