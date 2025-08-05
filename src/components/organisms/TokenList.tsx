@@ -58,7 +58,7 @@ const TokenList: FC<Props> = (props) => {
           <p>Token</p>
           <p className="text-right">Balance</p>
           <p className="text-right">Value (USD)</p>
-          <p className="text-right">Actions</p>
+          <p className="text-right"></p>
         </div>
       )}
       <motion.div

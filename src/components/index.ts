@@ -16,10 +16,12 @@ const PageHead = dynamic(() => import("./molecules/PageHead"));
 const SplashScreen = dynamic(() => import("./molecules/SplashScreen")); 
 const TokenListItem = dynamic(() => import("./molecules/TokenListItem"));
 const TokenActions = dynamic(() => import("./molecules/TokenActions"));
+const Modal = dynamic(() => import("./molecules/Modal"));
 //organisms
 const Header = dynamic(() => import("./organisms/Header"));
 const Footer = dynamic(() => import("./organisms/Footer")); 
 const TokenList = dynamic(() => import("./organisms/TokenList"));
+const SendTokenModal = dynamic(() => import("./organisms/SendTokenModal"));
 //templates
 const PageLayout = dynamic(() => import("./templates/PageLayout"));
 const HomeView = dynamic(() => import("./templates/HomeView")); 
@@ -42,5 +44,7 @@ export {
   HomeView, 
   TokenList,
   TokenListItem,
-  TokenActions
+  TokenActions,
+  SendTokenModal,
+  Modal
 }

@@ -1,8 +1,14 @@
-import { FC, ReactNode, useState } from "react";
-import { PageHead, Header, Footer, SplashScreen } from "@components";
+import { FC, ReactNode } from "react";
+import {
+  PageHead,
+  Header,
+  Footer,
+  SplashScreen,
+  SendTokenModal,
+} from "@components";
 import { enterAnimation } from "@constants";
-import { motion } from "framer-motion";
-import { useViewStore } from "src/stores";
+import { AnimatePresence, motion } from "framer-motion";
+import { useSendModalStore } from "@hooks";
 
 interface Props {
   children: ReactNode;
@@ -21,7 +27,7 @@ const PageLayout: FC<Props> = (props: Props) => {
     assets = [],
   } = props;
 
-  const { showModal, setShowModal } = useViewStore();
+  const { isOpen, token, closeModal } = useSendModalStore();
 
   return (
     <div
@@ -51,6 +57,11 @@ const PageLayout: FC<Props> = (props: Props) => {
 
       {/* load screen */}
       {assets && <SplashScreen assets={assets} />}
+
+      {/* modal */}
+      <AnimatePresence mode="wait">
+        {isOpen && <SendTokenModal show={isOpen} close={() => closeModal()} />}
+      </AnimatePresence>
     </div>
   );
 };
