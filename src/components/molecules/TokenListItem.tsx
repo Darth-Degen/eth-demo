@@ -35,9 +35,9 @@ const TokenListItem: FC<Props> = ({ token, variants, usdPrice }) => {
       <p className="text-right text-white">
         {Number.isInteger(balance) ? balance : balance.toFixed(4)}{" "}
         {canSend ? (
-          <span className="text-green-500">✓</span>
+          <span className="text-green-400 hidden lg:inline">✓</span>
         ) : (
-          <span className="text-red-500">✗</span>
+          <span className="text-red-500 hidden lg:inline">✗</span>
         )}
       </p>
 

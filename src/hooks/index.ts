@@ -1,6 +1,7 @@
 export * from "./useWindowSize" 
-export * from "./useSendModalStore"
 export * from "./useOutsideAlerter"
+//stores
+export * from "./modals/useSendModalStore"
 //eth
 export * from "./eth/useTokenBalances"
 export * from "./eth/useEthPrice"
