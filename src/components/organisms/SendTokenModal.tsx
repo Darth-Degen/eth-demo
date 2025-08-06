@@ -73,7 +73,7 @@ const SendTokenModal: FC<Props> = (props: Props) => {
             <input
               type="text"
               placeholder="Recipient address"
-              className="w-full p-2 rounded bg-eth-gray-700 text-white border border-gray-600 focus:outline-eth-purple "
+              className="w-full p-2 rounded bg-eth-gray-700 text-white border border-gray-600"
               value={toAddress}
               onChange={(e) => setToAddress(e.target.value)}
             />
@@ -81,7 +81,7 @@ const SendTokenModal: FC<Props> = (props: Props) => {
             <input
               type="number"
               placeholder="Amount"
-              className="no-spinner w-full p-2 rounded bg-eth-gray-700 text-white border border-gray-600 focus:outline-eth-purple"
+              className="no-spinner w-full p-2 rounded bg-eth-gray-700 text-white border border-gray-600"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />

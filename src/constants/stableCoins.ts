@@ -1,4 +1,4 @@
-import { Stablecoin } from "@types";
+import type { Stablecoin, SwapToken } from "@types";
 
 export const STABLECOINS: Stablecoin[] = [
   {
@@ -15,5 +15,16 @@ export const STABLECOINS: Stablecoin[] = [
     symbol: "DAI",
     address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
     decimals: 18,
+  },
+];
+
+export const SWAP_TARGETS: SwapToken[] = [
+  ...STABLECOINS,
+  {
+    symbol: "ETH",
+    name: "Ether",
+    decimals: 18,
+    address: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+    isNative: true,
   },
 ];
