@@ -1,31 +1,30 @@
 "use client";
 import { TokenListItem } from "@components";
 import { useTokenBalances } from "@hooks";
-import { motion, Variants } from "framer-motion";
-import { FC, HTMLAttributes } from "react";
+import { AnimatePresence, motion, Variants } from "framer-motion";
+import { FC, HTMLAttributes, useState } from "react";
 import { useAccount } from "wagmi";
 import { useUsdPrices } from "@hooks";
 import { FiRefreshCw } from "react-icons/fi";
 import toast from "react-hot-toast";
+import {
+  midEnterAnimation,
+  tokenContainerVariants,
+  tokenItemVariants,
+} from "@constants";
 
-interface Props extends HTMLAttributes<HTMLDivElement> {}
+const TokenList: FC = () => {
+  /*
+   * State
+   */
+  const [sortKey, setSortKey] = useState<"name" | "balance" | "usdValue">(
+    "usdValue"
+  );
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
 
-const containerVariants: Variants = {
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-      duration: 0.3,
-      ease: "easeInOut",
-    },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.3 } },
-};
-
-const TokenList: FC<Props> = (props) => {
+  /*
+   * Hooks and Variables
+   */
   const { isConnected } = useAccount();
   const {
     tokens,
@@ -45,6 +44,28 @@ const TokenList: FC<Props> = (props) => {
     refetch: refetchPrices,
   } = useUsdPrices(contractAddresses);
 
+  //add usdValue to each token
+  const enrichedTokens = tokens.map((token) => {
+    const usd = prices?.[token.contractAddress.toLowerCase()]?.usd ?? 0;
+    return {
+      ...token,
+      usdValue: usd,
+    };
+  });
+
+  //sort full token list
+  const sortedTokens = [...enrichedTokens].sort((a, b) => {
+    const aVal = sortKey === "name" ? a.name?.toLowerCase() : a[sortKey];
+    const bVal = sortKey === "name" ? b.name?.toLowerCase() : b[sortKey];
+
+    if (aVal === undefined || bVal === undefined) return 0;
+    if (sortDir === "asc") return aVal > bVal ? 1 : -1;
+    return aVal < bVal ? 1 : -1;
+  });
+
+  /*
+   * Functions
+   */
   const handleRefresh = async () => {
     const toastId = toast.loading("Refreshing token balances...");
     try {
@@ -60,6 +81,15 @@ const TokenList: FC<Props> = (props) => {
       toast.success("Balances and prices updated", { id: toastId });
     } catch (err: any) {
       toast.error(`Refresh failed: ${err.message}`, { id: toastId });
+    }
+  };
+
+  const toggleSort = (key: typeof sortKey) => {
+    if (sortKey === key) {
+      setSortDir(sortDir === "asc" ? "desc" : "asc");
+    } else {
+      setSortKey(key);
+      setSortDir("desc");
     }
   };
 
@@ -83,13 +113,70 @@ const TokenList: FC<Props> = (props) => {
         </button>
       </div>
 
-      {/* Loading */}
-      {loading ||
-        (pricesLoading && (
-          <p className="page-padding text-gray-400">
+      <AnimatePresence mode="wait">
+        {/* Loading */}
+        {loading || pricesLoading ? (
+          <motion.p
+            key="loading"
+            className="page-padding text-gray-400"
+            {...midEnterAnimation}
+          >
             Loading token balances...
-          </p>
-        ))}
+          </motion.p>
+        ) : (
+          <motion.div key="table" {...midEnterAnimation}>
+            {/* Table Header */}
+            {!loading && tokens.length > 0 && (
+              <div className="page-padding-x grid grid-cols-4 gap-4 text-sm font-medium text-gray-400 uppercase border-b border-eth-gray-700 pb-4">
+                <button
+                  onClick={() => toggleSort("name")}
+                  className="text-left"
+                >
+                  Token
+                </button>
+                <button
+                  onClick={() => toggleSort("balance")}
+                  className="text-right"
+                >
+                  Balance
+                </button>
+                <button
+                  onClick={() => toggleSort("usdValue")}
+                  className="text-right"
+                >
+                  Value (USD)
+                </button>
+                <p className="text-right"></p>
+              </div>
+            )}
+            {/* Table Body */}
+            <motion.div
+              variants={tokenContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className="scrollbar-custom relative max-h-[60vh] overflow-y-auto border-b border-eth-gray-700"
+            >
+              {sortedTokens.map((token) =>
+                token.name ? (
+                  // <TokenListItem
+                  //   key={token.contractAddress}
+                  //   token={token}
+                  //   variants={tokenItemVariants}
+                  //   usdPrice={
+                  //     prices?.[token.contractAddress.toLowerCase()]?.usd ?? 0
+                  //   }
+                  // />
+                  <TokenListItem
+                    key={token.contractAddress}
+                    token={token}
+                    usdPrice={token.usdValue}
+                  />
+                ) : null
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Error */}
       {error && (
@@ -105,33 +192,6 @@ const TokenList: FC<Props> = (props) => {
       {tokens.length === 0 && !loading && (
         <p className="text-orange-400">No tokens found</p>
       )}
-
-      {/* Table Header */}
-      {!loading && tokens.length > 0 && (
-        <div className="page-padding-x grid grid-cols-4 gap-4 text-sm font-medium text-gray-400 uppercase border-b border-eth-gray-700 pb-4">
-          <p>Token</p>
-          <p className="text-right">Balance</p>
-          <p className="text-right">Value (USD)</p>
-          <p className="text-right"></p>
-        </div>
-      )}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="scrollbar-custom relative max-h-[60vh] overflow-y-auto border-b border-eth-gray-700"
-      >
-        {tokens.map((token) =>
-          token.name ? (
-            <TokenListItem
-              key={token.contractAddress}
-              token={token}
-              variants={itemVariants}
-              usdPrice={prices?.[token.contractAddress.toLowerCase()]?.usd ?? 0}
-            />
-          ) : null
-        )}
-      </motion.div>
     </motion.div>
   );
 };

@@ -2,27 +2,22 @@
 import { Token } from "@types";
 import { FC, HTMLAttributes } from "react";
 import TokenActions from "./TokenActions";
-import { motion, Variants } from "framer-motion";
-import { useTokenPrice } from "@hooks"; // or wherever it's defined
+import { motion } from "framer-motion";
 import { TokenPrice } from "@components";
+import { midEnterAnimation } from "@constants";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   token: Token;
-  variants: Variants;
   usdPrice: number;
 }
 
-const TokenListItem: FC<Props> = ({ token, variants, usdPrice }) => {
+const TokenListItem: FC<Props> = ({ token, usdPrice }) => {
   const { symbol, name, balance } = token;
   const canSend = balance > 0;
 
   return (
     <motion.div
-      layout
-      variants={variants}
-      initial="hidden"
-      animate="visible"
-      exit="hidden"
+      {...midEnterAnimation}
       className="page-padding-x grid grid-cols-4 gap-4 py-2 items-center border-b border-eth-gray-800 hover:bg-eth-gray-800/50 transition-colors"
     >
       {/* Token name */}
