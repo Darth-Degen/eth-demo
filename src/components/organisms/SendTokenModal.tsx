@@ -15,9 +15,9 @@ const SendTokenModal: FC<Props> = (props: Props) => {
   const { show, close, token } = props;
 
   const [toAddress, setToAddress] = useState<string>("");
-  const [amount, setAmount] = useState<string>(token?.balance.toString() || "");
+  const [amount, setAmount] = useState<string>("");
 
-  const { sendToken } = useSendToken();
+  const { sendToken, isPending, error, txHash } = useSendToken();
   const { refetch } = useTokenBalances();
 
   const handleSend = async () => {
@@ -71,9 +71,11 @@ const SendTokenModal: FC<Props> = (props: Props) => {
     >
       {token ? (
         <div className="flex items-center justify-center h-full">
-          <div className="bg-eth-gray-800 text-white p-6 rounded-lg w-full max-w-md space-y-4">
-            <h2 className="text-xl font-semibold mb-4">Send ${token.symbol}</h2>
-
+          <div className="col-start gap-3 bg-eth-gray-800 text-white p-6 rounded-lg w-full max-w-md ">
+            <h2 className="text-xl font-semibold">Send ${token.symbol}</h2>
+            <div className="text-sm text-gray-500 -mt-3 mb-2">
+              Total Balance: {token.balance.toString()}{" "}
+            </div>
             <input
               type="text"
               placeholder="Recipient address"
@@ -91,7 +93,7 @@ const SendTokenModal: FC<Props> = (props: Props) => {
             />
 
             <button
-              className="bg-eth-purple transition-200 hover:bg-eth-purple-700 disabled:hover:bg-eth-purple disabled:cursor-not-allowed px-6 py-3 rounded text-sm mt-6 disabled:opacity-50"
+              className="bg-eth-purple transition-200 hover:bg-eth-purple-700 disabled:hover:bg-eth-purple disabled:cursor-not-allowed px-6 py-3 mt-2 rounded text-sm disabled:opacity-50"
               onClick={handleSend}
               disabled={!toAddress || !amount}
             >
