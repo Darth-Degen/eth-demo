@@ -1,4 +1,6 @@
 // components/TokenTableHeader.tsx
+import { fastestEnterAnimation } from "@constants";
+import { motion } from "framer-motion";
 import { FC } from "react";
 
 type SortKey = "name" | "balance" | "usdValue";
@@ -12,7 +14,11 @@ interface Props {
 const TokenTableHeader: FC<Props> = ({ sortKey, sortDir, toggleSort }) => {
   const renderSortArrow = (key: SortKey) => {
     if (sortKey !== key) return <span className="w-[20px]"></span>;
-    return <span className="w-[20px]">{sortDir === "asc" ? "↑" : "↓"}</span>;
+    return (
+      <motion.span className="w-[20px]" {...fastestEnterAnimation}>
+        {sortDir === "asc" ? "↑" : "↓"}
+      </motion.span>
+    );
   };
 
   return (

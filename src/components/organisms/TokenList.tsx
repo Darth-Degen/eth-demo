@@ -54,17 +54,28 @@ const TokenList: FC = () => {
       usdValue: usd,
     };
   });
-  console.log("Enriched Tokens:", enrichedTokens);
-  //sort full token list
-  const sortedTokens: EnrichedToken[] = [...enrichedTokens].sort((a, b) => {
-    const aVal = sortKey === "name" ? a.name?.toLowerCase() : a[sortKey];
-    const bVal = sortKey === "name" ? b.name?.toLowerCase() : b[sortKey];
+
+  const sortedTokens = [...enrichedTokens].sort((a, b) => {
+    let aVal: string | number | undefined;
+    let bVal: string | number | undefined;
+
+    if (sortKey === "name") {
+      aVal = a.name?.toLowerCase();
+      bVal = b.name?.toLowerCase();
+    } else if (sortKey === "usdValue") {
+      aVal = a.usdValue * a.balance;
+      bVal = b.usdValue * b.balance;
+    } else {
+      aVal = a[sortKey];
+      bVal = b[sortKey];
+    }
 
     if (aVal === undefined || bVal === undefined) return 0;
     if (sortDir === "asc") return aVal > bVal ? 1 : -1;
     return aVal < bVal ? 1 : -1;
   });
 
+  console.log("sortedTokens Tokens:", sortedTokens);
   /*
    * Functions
    */
