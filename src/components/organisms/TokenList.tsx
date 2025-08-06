@@ -1,5 +1,10 @@
 "use client";
-import { TokenListItem } from "@components";
+import {
+  TokenListItem,
+  TokenMessage,
+  TokenPageHeader,
+  TokenTableHeader,
+} from "@components";
 import { useTokenBalances } from "@hooks";
 import { AnimatePresence, motion } from "framer-motion";
 import { FC, useState } from "react";
@@ -49,7 +54,7 @@ const TokenList: FC = () => {
       usdValue: usd,
     };
   });
-
+  console.log("Enriched Tokens:", enrichedTokens);
   //sort full token list
   const sortedTokens: EnrichedToken[] = [...enrichedTokens].sort((a, b) => {
     const aVal = sortKey === "name" ? a.name?.toLowerCase() : a[sortKey];
@@ -100,19 +105,9 @@ const TokenList: FC = () => {
       transition={{ duration: 0.3 }}
       className="page-padding-y w-full h-full"
     >
-      <div className="page-padding flex gap-2">
-        <h2 className="text-2xl font-semibold">Your Tokens</h2>
-        <button
-          onClick={() => handleRefresh()}
-          className="px-4 py-2 rounded transition-200 hover:scale-110 -mt-1"
-          aria-label="Refresh"
-        >
-          <FiRefreshCw size={24} />
-        </button>
-      </div>
+      <TokenPageHeader onRefresh={handleRefresh} />
 
       <AnimatePresence mode="wait">
-        {/* Loading */}
         {loading || pricesLoading ? (
           <motion.p
             key="loading"
@@ -123,29 +118,12 @@ const TokenList: FC = () => {
           </motion.p>
         ) : (
           <motion.div key="table" {...midEnterAnimation}>
-            {/* Table Header */}
-            {!loading && tokens.length > 0 && (
-              <div className="page-padding-x grid grid-cols-4 gap-4 text-sm font-medium text-gray-400 uppercase border-b border-eth-gray-700 pb-4">
-                <button
-                  onClick={() => toggleSort("name")}
-                  className="text-left"
-                >
-                  Token
-                </button>
-                <button
-                  onClick={() => toggleSort("balance")}
-                  className="text-right"
-                >
-                  Balance
-                </button>
-                <button
-                  onClick={() => toggleSort("usdValue")}
-                  className="text-right"
-                >
-                  Value (USD)
-                </button>
-                <p className="text-right"></p>
-              </div>
+            {tokens.length > 0 && (
+              <TokenTableHeader
+                sortKey={sortKey}
+                sortDir={sortDir}
+                toggleSort={toggleSort}
+              />
             )}
             {/* Table Body */}
             <motion.div
@@ -156,14 +134,6 @@ const TokenList: FC = () => {
             >
               {sortedTokens.map((token) =>
                 token.name ? (
-                  // <TokenListItem
-                  //   key={token.contractAddress}
-                  //   token={token}
-                  //   variants={tokenItemVariants}
-                  //   usdPrice={
-                  //     prices?.[token.contractAddress.toLowerCase()]?.usd ?? 0
-                  //   }
-                  // />
                   <TokenListItem
                     key={token.contractAddress}
                     token={token}
@@ -176,20 +146,12 @@ const TokenList: FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Error */}
-      {error && (
-        <p className="page-padding-x text-red-500">Error: {error.message}</p>
-      )}
-      {pricesError && (
-        <p className="page-padding-x text-red-500">
-          Price error: {pricesError.message}
-        </p>
-      )}
-
-      {/* Empty */}
-      {tokens.length === 0 && !loading && (
-        <p className="text-orange-400">No tokens found</p>
-      )}
+      <TokenMessage
+        error={error}
+        pricesError={pricesError}
+        isEmpty={tokens.length === 0}
+        isLoading={loading}
+      />
     </motion.div>
   );
 };

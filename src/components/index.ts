@@ -20,6 +20,9 @@ const TokenListItem = dynamic(() => import("./molecules/TokenListItem"));
 const TokenActions = dynamic(() => import("./molecules/TokenActions"));
 const Modal = dynamic(() => import("./molecules/Modal"));
 const TokenPrice = dynamic(() => import("./molecules/TokenPrice"));
+const TokenTableHeader = dynamic(() => import("./molecules/TokenTableHeader"));
+const TokenMessage = dynamic(() => import("./molecules/TokenMessage"));
+const TokenPageHeader = dynamic(() => import("./molecules/TokenPageHeader"));
 //organisms
 const Header = dynamic(() => import("./organisms/Header"));
 const Footer = dynamic(() => import("./organisms/Footer")); 
@@ -52,5 +55,8 @@ export {
   Modal,
   NumberInput,
   TextInput,
-  TokenPrice
-}
+  TokenPrice,
+  TokenTableHeader,
+  TokenMessage,
+  TokenPageHeader
+};
