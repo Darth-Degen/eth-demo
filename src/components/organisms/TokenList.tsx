@@ -1,10 +1,12 @@
 "use client";
 import { TokenListItem } from "@components";
 import { useTokenBalances } from "@hooks";
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { FC, HTMLAttributes } from "react";
 import { useAccount } from "wagmi";
 import { useUsdPrices } from "@hooks";
+import { FiRefreshCw } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -25,13 +27,26 @@ const itemVariants: Variants = {
 
 const TokenList: FC<Props> = (props) => {
   const { isConnected } = useAccount();
-  const { tokens, loading, error } = useTokenBalances();
+  const { tokens, loading, error, refetch } = useTokenBalances();
 
   // const tokensWithBalance = tokens.filter((t) => t.balance > 0);
   const contractAddresses = tokens
     .filter((t) => t.balance > 0)
     .map((t) => t.contractAddress);
   const { data: usdPrices } = useUsdPrices(contractAddresses);
+
+  const handleRefresh = () => {
+    const toastId = toast.loading(`Refreshing token balances...`);
+    refetch()
+      .then(() => {
+        toast.success("Token balances refreshed", { id: toastId });
+      })
+      .catch((error) => {
+        toast.error(`Failed to refresh token balances: ${error.message}`, {
+          id: toastId,
+        });
+      });
+  };
 
   if (!isConnected) return null;
 
@@ -40,9 +55,18 @@ const TokenList: FC<Props> = (props) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className="page-padding-yw-full h-full"
+      className="page-padding-y w-full h-full"
     >
-      <h2 className="page-padding text-2xl font-semibold">Your Tokens</h2>
+      <div className="page-padding flex gap-2">
+        <h2 className="text-2xl font-semibold">Your Tokens</h2>
+        <button
+          onClick={() => handleRefresh()}
+          className="px-4 py-2 rounded transition-200 hover:scale-110 -mt-1"
+          aria-label="Refresh"
+        >
+          <FiRefreshCw size={24} />
+        </button>
+      </div>
 
       {/* Loading */}
       {loading && (

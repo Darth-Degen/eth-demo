@@ -2,7 +2,7 @@
 import { useSendModalStore } from "@hooks";
 import { Token } from "@types";
 import { FC } from "react";
-import { FiSend, FiRefreshCw } from "react-icons/fi";
+import { FiSend, FiRepeat } from "react-icons/fi";
 import { useChainId } from "wagmi";
 
 interface Props {
@@ -61,7 +61,7 @@ const TokenActions: FC<Props> = ({ token }) => {
         onClick={openSushiSwap}
         title="Exchange"
       >
-        <FiRefreshCw size={20} />
+        <FiRepeat size={20} />
       </button>
     </div>
   );
