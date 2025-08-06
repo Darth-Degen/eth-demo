@@ -36,9 +36,9 @@ const PageLayout: FC<Props> = (props: Props) => {
       }`}
     >
       <PageHead
-        title="Name"
-        description="Description"
-        url="https://addurl.xyz" // no backslash at the end
+        title="Eth Demo"
+        description="A demo application for Ethereum token transfers"
+        url="https://eth-demo.vercel.app/" // no backslash at the end
         twitter="twitterhandle"
       />
       {/* header */}
