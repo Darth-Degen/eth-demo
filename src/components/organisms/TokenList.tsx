@@ -75,7 +75,6 @@ const TokenList: FC = () => {
     return aVal < bVal ? 1 : -1;
   });
 
-  console.log("sortedTokens Tokens:", sortedTokens);
   /*
    * Functions
    */

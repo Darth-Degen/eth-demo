@@ -59,7 +59,12 @@ const SendTokenModal: FC<Props> = (props: Props) => {
       await refetch(); // Refresh balances
       close(); // Close modal
     } catch (err: any) {
-      toast.error(err?.message || "Transaction failed", { id: toastId });
+      const message =
+        err?.message?.length > 26
+          ? err.message.slice(0, 26) + "..."
+          : err?.message || "Transaction failed";
+
+      toast.error(message, { id: toastId });
     }
   };
 
