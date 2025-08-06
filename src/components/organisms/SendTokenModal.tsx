@@ -15,9 +15,9 @@ const SendTokenModal: FC<Props> = (props: Props) => {
   const { show, close, token } = props;
 
   const [toAddress, setToAddress] = useState<string>("");
-  const [amount, setAmount] = useState<string>("");
+  const [amount, setAmount] = useState<string>(token?.balance.toString() || "");
 
-  const { sendToken, isPending, error, txHash } = useSendToken();
+  const { sendToken } = useSendToken();
   const { refetch } = useTokenBalances();
 
   const handleSend = async () => {

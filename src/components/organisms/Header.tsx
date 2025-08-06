@@ -28,27 +28,29 @@ const Header: FC = () => {
     !isEthPriceLoading && ethBalance && !isEthPriceError && isConnected;
 
   return (
-    <div className="page-padding flex justify-between items-center w-full md:min-h-[104px] bg-eth-gray-700 transition-300">
-      <AnimatePresence mode="wait">
-        {showEthInfo && (
-          <motion.div {...fastEnterAnimation} className="flex justify-start">
-            <p className="ml-2 hidden sm:block">{ethAmount.toFixed(4)} ETH</p>
-            {ethValueUSD && (
-              <p className="text-green-400 font-medium ml-2">
-                (${ethValueUSD})
-              </p>
-            )}
-          </motion.div>
-        )}
-        {!isEthPriceLoading && isEthPriceError && (
-          <p className="text-red-500">Error fetching ETH price</p>
-        )}
-      </AnimatePresence>
+    <header className="bg-eth-gray-700">
+      <div className="page-padding flex justify-between items-center w-full md:min-h-[104px] max-w-[1820px] mx-auto">
+        <AnimatePresence mode="wait">
+          {showEthInfo && (
+            <motion.div {...fastEnterAnimation} className="flex justify-start">
+              <p className="ml-2 hidden sm:block">{ethAmount.toFixed(4)} ETH</p>
+              {ethValueUSD && (
+                <p className="text-green-400 font-medium ml-2">
+                  (${ethValueUSD})
+                </p>
+              )}
+            </motion.div>
+          )}
+          {!isEthPriceLoading && isEthPriceError && (
+            <p className="text-red-500">Error fetching ETH price</p>
+          )}
+        </AnimatePresence>
 
-      <div className="flex justify-end flex-grow">
-        <ConnectButton chainStatus="icon" />
+        <div className="flex justify-end flex-grow">
+          <ConnectButton chainStatus="icon" />
+        </div>
       </div>
-    </div>
+    </header>
   );
 };
 
