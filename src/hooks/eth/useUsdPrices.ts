@@ -23,7 +23,7 @@ export const useUsdPrices = (contractAddresses: `0x${string}`[]) => {
   const chainId = useChainId();
   const platform = getCoinGeckoPlatform(chainId);
 
-  return useQuery({
+  const query =  useQuery({
     queryKey: ["usdPrices", contractAddresses, platform],
     enabled: !!platform && contractAddresses.length > 0 && !!key,
     staleTime: 60_000,
@@ -43,4 +43,11 @@ export const useUsdPrices = (contractAddresses: `0x${string}`[]) => {
       return data;
     },
   });
+
+  return {
+    prices: query.data ?? {},
+    loading: query.isLoading,
+    error: query.error as Error | null,
+    refetch: query.refetch,
+  }
 };
