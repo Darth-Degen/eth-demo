@@ -1,30 +1,27 @@
 "use client";
 import { TokenListItem } from "@components";
 import { useTokenBalances } from "@hooks";
-import { AnimatePresence, motion, Variants } from "framer-motion";
-import { FC, HTMLAttributes, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { FC, useState } from "react";
 import { useAccount } from "wagmi";
 import { useUsdPrices } from "@hooks";
 import { FiRefreshCw } from "react-icons/fi";
 import toast from "react-hot-toast";
-import {
-  midEnterAnimation,
-  tokenContainerVariants,
-  tokenItemVariants,
-} from "@constants";
+import { midEnterAnimation, tokenContainerVariants } from "@constants";
+import { EnrichedToken, SortKey } from "@types";
 
 const TokenList: FC = () => {
   /*
    * State
    */
-  const [sortKey, setSortKey] = useState<"name" | "balance" | "usdValue">(
-    "usdValue"
-  );
+
+  const [sortKey, setSortKey] = useState<SortKey>("balance");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
 
   /*
    * Hooks and Variables
    */
+
   const { isConnected } = useAccount();
   const {
     tokens,
@@ -45,7 +42,7 @@ const TokenList: FC = () => {
   } = useUsdPrices(contractAddresses);
 
   //add usdValue to each token
-  const enrichedTokens = tokens.map((token) => {
+  const enrichedTokens: EnrichedToken[] = tokens.map((token) => {
     const usd = prices?.[token.contractAddress.toLowerCase()]?.usd ?? 0;
     return {
       ...token,
@@ -54,7 +51,7 @@ const TokenList: FC = () => {
   });
 
   //sort full token list
-  const sortedTokens = [...enrichedTokens].sort((a, b) => {
+  const sortedTokens: EnrichedToken[] = [...enrichedTokens].sort((a, b) => {
     const aVal = sortKey === "name" ? a.name?.toLowerCase() : a[sortKey];
     const bVal = sortKey === "name" ? b.name?.toLowerCase() : b[sortKey];
 
@@ -66,6 +63,7 @@ const TokenList: FC = () => {
   /*
    * Functions
    */
+
   const handleRefresh = async () => {
     const toastId = toast.loading("Refreshing token balances...");
     try {
@@ -84,7 +82,7 @@ const TokenList: FC = () => {
     }
   };
 
-  const toggleSort = (key: typeof sortKey) => {
+  const toggleSort = (key: SortKey) => {
     if (sortKey === key) {
       setSortDir(sortDir === "asc" ? "desc" : "asc");
     } else {
